@@ -3,6 +3,13 @@
 
 ![snapshot](/images/snapshot-web.jpg)
 
+This is a simple web app that generates a pseudo Japanese card.
+
+- it support markdown style
+- it support different themes
+- it support save image to local
+- it support pass in query string to generate card with url, https://pseudo-japanese-card.vercel.app/?content=hello%20world
+
 ## Getting Started
 
 First, run the development server:

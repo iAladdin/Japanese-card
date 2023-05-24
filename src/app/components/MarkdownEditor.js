@@ -4,41 +4,36 @@ import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const MarkdownEditor = () => {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [text, setText] = useState("");
 
   const [theme, setTheme] = useState("default"); // 新增的状态
 
   const fullText =
-    "#  Hey guys \n## Can't you read this Sentence? \nwhy can't 'Cause you are Japanese";
+    "#  Hey guys \n## Can't you read this Sentence? \nwhy can't? 'Cause you are Japanese";
 
   useEffect(() => {
     let index = 0;
-    // if (router.query == undefined) return null;
 
-    const initialText = router.query
-      ? decodeURIComponent(router.query.content)
+    const initialText = searchParams.get("content")
+      ? decodeURIComponent(searchParams.get("content"))
       : fullText;
 
-    // 每隔100毫秒添加一个字符
     const intervalId = setInterval(() => {
-      if (index < fullText.length - 1) {
+      if (index < initialText.length - 1) {
         setText((prevText) => prevText + initialText[index]);
         index++;
       } else {
-        // 当所有的字符都被添加后，停止间隔函数
         clearInterval(intervalId);
       }
-    }, 60); // 这里的数字可以调整，数字越小打字效果越快
+    }, 100);
 
-    // 当组件卸载时，清除间隔函数
     return () => clearInterval(intervalId);
-  }, [router]);
+  }, [searchParams]);
 
-  // 定义三种主题颜色的样式
   const themes = {
     default: {
       backgroundColor: "white",
@@ -85,19 +80,6 @@ const MarkdownEditor = () => {
       .catch((error) => {
         console.error("oops, something went wrong!", error);
       });
-  };
-
-  const shareToTwitter = () => {
-    // 获取图像 URL 或 base64
-    const imageUrl = "url_to_your_image";
-
-    // 创建分享到 Twitter 的链接
-    const tweetLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      text
-    )}&url=${imageUrl}`;
-
-    // 在新标签页中打开链接
-    window.open(tweetLink, "_blank");
   };
 
   return (
@@ -158,7 +140,6 @@ const MarkdownEditor = () => {
       >
         💾 Save Card Image
       </button>
-      {/* <button onClick={shareToTwitter}>Share to Twitter</button> */}
     </div>
   );
 };
