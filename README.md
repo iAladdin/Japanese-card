@@ -1,5 +1,8 @@
 # Pseudo Japanese Card Generator
-==============================
+-----------
+
+https://pseudo-japanese-card.vercel.app/
+
 
 ![snapshot](/images/snapshot-web.jpg)
 
