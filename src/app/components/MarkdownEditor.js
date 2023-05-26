@@ -5,12 +5,13 @@ import ReactMarkdown from "react-markdown";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { useSearchParams } from "next/navigation";
+import { themes } from "../configs/themes";
 
 const MarkdownEditor = () => {
   const searchParams = useSearchParams();
   const [text, setText] = useState("");
 
-  const [theme, setTheme] = useState("default"); // 新增的状态
+  const [theme, setTheme] = useState("default");
 
   const fullText =
     "#  Hey guys \n## Can't you read this Sentence? \nwhy can't? 'Cause you are Japanese";
@@ -34,27 +35,17 @@ const MarkdownEditor = () => {
     return () => clearInterval(intervalId);
   }, [searchParams]);
 
-  const themes = {
-    default: {
-      backgroundColor: "white",
-      border: "4px solid gray",
-      color: "black",
-    },
-    matrix: {
-      backgroundColor: "black",
-      border: "4px solid green",
-      color: "lime",
-    },
-    japanese: {
-      backgroundColor: "#F4A261",
-      border: "4px solid #E76F51",
-      color: "#264653",
-    },
-    classic: {
-      backgroundColor: "black",
-      border: "4px solid red",
-      color: "red",
-    },
+  const renderThemeButtons = () => {
+    return Object.keys(themes).map((themeKey) => (
+      <button
+        key={themeKey}
+        onClick={() => setTheme(themeKey)}
+        className="rounded-lg"
+        style={{ ...themes[themeKey] }}
+      >
+        {themeKey.charAt(0).toUpperCase() + themeKey.slice(1)}
+      </button>
+    ));
   };
 
   const downloadImage = () => {
@@ -96,34 +87,7 @@ const MarkdownEditor = () => {
         style={{ fontFamily: "Electroharmonix" }}
         className="flex flex-row justify-between w-full mb-6"
       >
-        <button
-          onClick={() => setTheme("default")}
-          className="rounded-lg"
-          style={{ ...themes["default"] }}
-        >
-          Default
-        </button>
-        <button
-          onClick={() => setTheme("matrix")}
-          className="rounded-lg"
-          style={{ ...themes["matrix"] }}
-        >
-          Matrix
-        </button>
-        <button
-          onClick={() => setTheme("japanese")}
-          className="rounded-lg"
-          style={{ ...themes["japanese"] }}
-        >
-          Japanese
-        </button>
-        <button
-          onClick={() => setTheme("classic")}
-          className="rounded-lg"
-          style={{ ...themes["classic"] }}
-        >
-          Classic
-        </button>
+        {renderThemeButtons()}
       </div>
       <div> Please input the content:</div>
       <textarea
