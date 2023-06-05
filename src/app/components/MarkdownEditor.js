@@ -47,6 +47,11 @@ const MarkdownEditor = () => {
       </button>
     ));
   };
+  const downloadCount = async () => {
+    const response = await fetch("/api/download");
+    const data = await response.json();
+    console.log(data);
+  };
 
   const downloadImage = () => {
     const node = document.getElementById("markdown-content");
@@ -71,6 +76,8 @@ const MarkdownEditor = () => {
       .catch((error) => {
         console.error("oops, something went wrong!", error);
       });
+
+    downloadCount();
   };
 
   return (

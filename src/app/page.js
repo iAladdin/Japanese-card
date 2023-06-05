@@ -5,10 +5,15 @@ const MarkdownEditor = dynamic(() => import("./components/MarkdownEditor"), {
   ssr: false,
 });
 
+const UsageCounter = dynamic(() => import("./components/Counter"), {
+  ssr: false,
+});
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-6 sm:max-lg:p-24">
+    <main className="flex pb-100 flex-col items-center justify-between p-6 sm:max-lg:p-24">
       <MarkdownEditor />
+      <UsageCounter />
     </main>
   );
 }
